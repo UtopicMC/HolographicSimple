@@ -19,13 +19,13 @@ import org.spongepowered.api.event.game.state.GameInitializationEvent;
 @Plugin(id = "holosimple", name = "Holographic Simple", version = "1.0")
 public class HolographicSimple {
 	
-	//summon ArmorStand x y z {Invisible:1,direction:[0.0,0.0,0.0],ExplosionPower:ญ0,CustomName:"Put text here",CustomNameVisible:true,NoGravity:1}
+	//summon ArmorStand x y z {Invisible:1,direction:[0.0,0.0,0.0],ExplosionPower:0,CustomName:"Put text here",CustomNameVisible:true,NoGravity:1}
 	//minecraft:kill @e[type=ArmorStand,name=(customName),c=1]
 	
 	@Listener
 	public void onGameInitializationEvent(GameInitializationEvent event) {
 		CommandSpec commandHolo = CommandSpec.builder()
-				.permission("h.use")
+				.permission("holo.use")
         		.arguments(GenericArguments.onlyOne(GenericArguments.doubleNum(Text.of("y"))), GenericArguments.remainingJoinedStrings(Text.of("text")))
                 .executor(new CommandExecutor() {
                     @Override
@@ -36,7 +36,7 @@ public class HolographicSimple {
                     		double y = args.<Double>getOne("y").get();
                     		double z = p.getLocation().getZ();
                         	String text = args.<String>getOne("text").get();
-                        	Sponge.getCommandManager().process(Sponge.getServer().getConsole(), "summon ArmorStand " + x + " " + y + " " + z + " {Invisible:1,direction:[0.0,0.0,0.0],ExplosionPower:ญ0,CustomName:\"" + text.replace("&", "ง") + "\",CustomNameVisible:true,NoGravity:1,DisabledSlots:2039552,Marker:1}");
+                        	Sponge.getCommandManager().process(Sponge.getServer().getConsole(), "summon ArmorStand " + x + " " + y + " " + z + " {Invisible:1,direction:[0.0,0.0,0.0],ExplosionPower:0,CustomName:\"" + text.replace("&", "ยง") + "\",CustomNameVisible:true,NoGravity:1,DisabledSlots:2039552,Marker:1}");
                     	}
                         return CommandResult.success();
                     }
@@ -46,7 +46,7 @@ public class HolographicSimple {
         Sponge.getCommandManager().register(this, commandHolo, "hologram", "h");
         
         CommandSpec commandHoloDel = CommandSpec.builder()
-        		.permission("delh.use")
+        		.permission("delholo.use")
         		.arguments(GenericArguments.remainingJoinedStrings(Text.of("text")))
                 .executor(new CommandExecutor() {
                     @Override
@@ -66,4 +66,3 @@ public class HolographicSimple {
 	       
 	}
 }
-//Test Punnisher1661
