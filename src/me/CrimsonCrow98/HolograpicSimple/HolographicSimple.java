@@ -25,44 +25,37 @@ public class HolographicSimple {
 	@Listener
 	public void onGameInitializationEvent(GameInitializationEvent event) {
 		CommandSpec commandHolo = CommandSpec.builder()
-				.permission("holo.use")
-        		.arguments(GenericArguments.onlyOne(GenericArguments.doubleNum(Text.of("y"))), GenericArguments.remainingJoinedStrings(Text.of("text")))
-                .executor(new CommandExecutor() {
-                    @Override
-                    public CommandResult execute(CommandSource commandSource, CommandContext args) throws CommandException {
-                    	if(commandSource instanceof Player){
-                    		Player p = (Player) commandSource;
-                    		double x = p.getLocation().getX();
-                    		double y = args.<Double>getOne("y").get();
-                    		double z = p.getLocation().getZ();
-                        	String text = args.<String>getOne("text").get();
-                        	Sponge.getCommandManager().process(Sponge.getServer().getConsole(), "summon ArmorStand " + x + " " + y + " " + z + " {Invisible:1,direction:[0.0,0.0,0.0],ExplosionPower:0,CustomName:\"" + text.replace("&", "§") + "\",CustomNameVisible:true,NoGravity:1,DisabledSlots:2039552,Marker:1}");
-                    	}
-                        return CommandResult.success();
-                    }
-                })
-                .build();
-        
-        Sponge.getCommandManager().register(this, commandHolo, "hologram", "h");
-        
-        CommandSpec commandHoloDel = CommandSpec.builder()
-        		.permission("delholo.use")
-        		.arguments(GenericArguments.remainingJoinedStrings(Text.of("text")))
-                .executor(new CommandExecutor() {
-                    @Override
-                    public CommandResult execute(CommandSource commandSource, CommandContext args) throws CommandException {
-                    	if(commandSource instanceof Player){
-                    		
-                        	String text = args.<String>getOne("text").get();
-                        	Sponge.getCommandManager().process(commandSource, "minecraft:kill @e[type=ArmorStand,CustomName=" + text + ",c=1]");
-                    	}
-                        return CommandResult.success();
-                    }
-                })
-                .build();
-        
-        Sponge.getCommandManager().register(this, commandHoloDel, "delhologram", "delh");
+			.permission("holo.use")
+			.arguments(GenericArguments.onlyOne(GenericArguments.doubleNum(Text.of("y"))), GenericArguments.remainingJoinedStrings(Text.of("text")))
+			.executor(new CommandExecutor() {
+				@Override
+				public CommandResult execute(CommandSource commandSource, CommandContext args) throws CommandException {
+					if(commandSource instanceof Player){
+						Player p = (Player) commandSource;
+						double x = p.getLocation().getX();
+						double y = args.<Double>getOne("y").get();
+						double z = p.getLocation().getZ();
+						String text = args.<String>getOne("text").get();
+						Sponge.getCommandManager().process(Sponge.getServer().getConsole(), "summon ArmorStand " + x + " " + y + " " + z + " {Invisible:1,direction:[0.0,0.0,0.0],ExplosionPower:0,CustomName:\"" + text.replace("&", "§") + "\",CustomNameVisible:true,NoGravity:1,DisabledSlots:2039552,Marker:1}");
+					}
+					return CommandResult.success();
+				}
+			}).build();
 		
-	       
+		Sponge.getCommandManager().register(this, commandHolo, "hologram", "h");
+		
+		CommandSpec commandHoloDel = CommandSpec.builder()
+			.permission("delholo.use")
+			.arguments(GenericArguments.remainingJoinedStrings(Text.of("text")))
+			.executor(new CommandExecutor() {
+				@Override
+				public CommandResult execute(CommandSource commandSource, CommandContext args) throws CommandException {
+					if(commandSource instanceof Player)
+						Sponge.getCommandManager().process(commandSource, "minecraft:kill @e[type=ArmorStand,CustomName=" + args.<String>getOne("text").get() + ",c=1]");
+					return CommandResult.success();
+				}
+			}).build();
+		
+		Sponge.getCommandManager().register(this, commandHoloDel, "delhologram", "delh");
 	}
 }
